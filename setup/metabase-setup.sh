@@ -17,5 +17,5 @@ sed 's/'\''/\"/g' file.json > file2.json && \
 cat file2.json && \
 sessionToken=$(curl -s http://$1/api/setup -H 'Content-Type: application/json' --data-binary @file2.json | jq -r '.id') && echo ' < Admin session token, exiting' && \
 # creating a postgres
-curl -s -X POST http://$1/api/database -H 'Content-Type: application/json' --cookie "metabase.SESSION=$sessionToken" --data {"engine":"postgres","name":"CrateDB","details":{"host":"cratedb","port":5432,"dbname":"sample","user":"crate","password":"password","schema-filters-type":"inclusion","schema-filters-patterns":"public","ssl":"false","tunnel-enabled":"false","advanced-options":"true","json-unfolding":"true","additional-options":null,"let-user-control-scheduling":null},"auto_run_queries":"true","refingerprint":null,"is_full_sync":"true"} &&
+curl -s -X POST http://$1/api/database -H 'Content-Type: application/json' --cookie "metabase.SESSION=$sessionToken" --data '{"engine":"postgres","name":"CrateDB","details":{"host":"cratedb","port":5432,"dbname":"sample","user":"crate","password":"password","schema-filters-type":"inclusion","schema-filters-patterns":"public","ssl":false,"tunnel-enabled":false,"advanced-options":false},"is_full_sync":true}' &&
 curl -s -X DELETE http://$1/api/database/1 -H 'Content-Type: application/json' --cookie "metabase.SESSION=$sessionToken"; fi
